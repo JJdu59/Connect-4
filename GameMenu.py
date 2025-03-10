@@ -1,12 +1,13 @@
 import tkinter as tk
 import customtkinter as ctk
+from Connect4 import main
 
 # Initialize CustomTkinter
 ctk.set_appearance_mode("Dark")  # Dark or Light mode
 ctk.set_default_color_theme("blue")  # Themes: "blue", "green", "dark-blue"
 
 class GameMenu(ctk.CTk):
-    def __init__(self, title="Game Menu", size="1200x800", fullscreen=False):
+    def __init__(self, title="Game title", size="1200x800", fullscreen=False):
         super().__init__()
 
         # Store fullscreen state
@@ -45,23 +46,15 @@ class GameMenu(ctk.CTk):
 
         # Play Button
         self.play_button = ctk.CTkButton(self.main_frame, text="Play", font=("Arial", 24), command=self.start_game)
-        self.play_button.place(relx=0.5, rely=0.4, anchor="center")
-
-        # Options Button (Optional)
-        self.options_button = ctk.CTkButton(self.main_frame, text="Options", font=("Arial", 20), command=self.show_options)
-        self.options_button.place(relx=0.5, rely=0.55, anchor="center")
+        self.play_button.place(relx=0.5, rely=0.42, anchor="center")
 
         # Quit Button
         self.quit_button = ctk.CTkButton(self.main_frame, text="Quit", font=("Arial", 20), fg_color="red", hover_color="#8b0000", command=self.quit_game)
-        self.quit_button.place(relx=0.5, rely=0.70, anchor="center")
+        self.quit_button.place(relx=0.5, rely=0.69, anchor="center")
 
-        # Credits Button
-        self.credits_button = ctk.CTkButton(self.main_frame, text="Credits", font=("Arial", 20), command=self.show_credits)
-        self.credits_button.place(relx=0.1, rely=0.95, anchor="center")
-
-        # High Scores Button
-        self.highscores_button = ctk.CTkButton(self.main_frame, text="High Scores", font=("Arial", 20), command=self.show_highscores)
-        self.highscores_button.place(relx=0.9, rely=0.95, anchor="center")
+        # Credits
+        self.credits = ctk.CTkLabel(self.main_frame, text="Credits\nJJdu59", font=("Arial", 15))
+        self.credits.place(relx=0.03, rely=0.97, anchor="center")
 
         # Fullscreen Toggle
         self.fullscreen_var = tk.BooleanVar(value=self.fullscreen)
@@ -72,19 +65,12 @@ class GameMenu(ctk.CTk):
         self.bind("<Configure>", self.on_resize)
 
     def start_game(self):
-        print(f"Game is starting... Resolution: {self.winfo_width()}x{self.winfo_height()}")
-
-    def show_options(self):
-        print("Opening options... (Expand this later)")
+        self.withdraw()
+        main(self.winfo_width(), self.winfo_height())
+        self.deiconify()
 
     def quit_game(self, event=None):  # Accept event parameter for Escape key
         self.destroy()
-
-    def show_credits(self):
-        print("Bah y'a que moi quoi")
-
-    def show_highscores(self):
-        print("t'es un champion")
 
     def toggle_fullscreen(self):
         self.fullscreen = not self.fullscreen
@@ -100,15 +86,12 @@ class GameMenu(ctk.CTk):
         height = self.winfo_height()
 
         # Adjust button sizes based on window size
-        button_width = int(width * 0.3)  # 30% of window width
-        button_height = int(height * 0.12)  # 12% of window height
+        button_width = int(width * 0.35)  # 30% of window width
+        button_height = int(height * 0.15)  # 12% of window height
 
         self.play_button.configure(width = button_width, height = button_height, corner_radius = button_height // 3)
-        self.options_button.configure(width = button_width * 0.95, height = button_height, corner_radius = button_height // 3)
-        self.quit_button.configure(width = button_width * 0.90, height = button_height, corner_radius = button_height // 3)
-        self.credits_button.configure(width = button_width // 2, height = button_height // 2, corner_radius = button_height // 6)
-        self.highscores_button.configure(width = button_width // 2, height = button_height // 2, corner_radius = button_height // 6)
+        self.quit_button.configure(width = button_width * 0.95, height = button_height, corner_radius = button_height // 3)
 
 if __name__ == "__main__":
-    app = GameMenu(title="My Awesome Game", fullscreen=True)  # Start in fullscreen mode
+    app = GameMenu(title="Connect 4")
     app.mainloop()
